@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -9,16 +9,11 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   let naviagte = useNavigate();
 
-  useEffect(()=>{
-    if(localStorage.getItem("access_Token")){
-      console.log("signin")
-      window.location.replace('/todo')
-     } 
-  },[])
+  if(localStorage.getItem("access_Token")){
+    console.log("signin")
+    window.location.replace('/todo')
+  } 
 
-
-
-  
 
   const handleLogin = async () => {
     let data = {
@@ -83,3 +78,5 @@ const SingIn = styled.div`
     margin-top: 20vh;
   }
 `;
+
+

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useState , useEffect} from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,12 +10,10 @@ export default function Signup() {
 
   let naviagte = useNavigate();
 
-  useEffect(()=>{
-    if(localStorage.getItem("access_Token")){
+  if(localStorage.getItem("access_Token")){
       console.log("signup")
       window.location.replace('/todo')
-     } 
-  },[])
+  } 
 
   const handleLogin = async () => {
     let data = {
