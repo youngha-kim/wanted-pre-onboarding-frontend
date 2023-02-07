@@ -67,7 +67,11 @@ export default function Todo() {
     }
   }
 
+  const handleEditMode = () => {
 
+  }
+
+  
   return (
     <>
       <TodoStyle>
@@ -86,7 +90,7 @@ export default function Todo() {
                       <input type="checkbox" />
                       <span>{el.todo}</span> 
                     </label>
-                    <button id="modify-button">수정</button> {/**제출 */}
+                    <button id="modify-button" onClick={handleEditMode}>수정</button> {/**제출 */}
                     <button id="delete-button"  onClick={() => deleteTodo(el.id)}>삭제</button> {/**취소*/}
                   </div>
               );
