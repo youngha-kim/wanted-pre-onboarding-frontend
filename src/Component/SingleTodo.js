@@ -26,6 +26,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           }
         );
         isEdit(false);
+        setRefetch(!reFetch)
       } catch (error) {
         alert(error);
       }
