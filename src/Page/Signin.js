@@ -10,7 +10,6 @@ export default function SignIn() {
   let naviagte = useNavigate();
 
   if(localStorage.getItem("access_Token")){
-    console.log("signin")
     window.location.replace('/todo')
   } 
 

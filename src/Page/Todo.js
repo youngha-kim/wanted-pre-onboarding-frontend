@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { SingleTodo } from "../Component/SingleTodo";
 
 export default function Todo() {
   let TOKEN = "";
@@ -13,15 +14,14 @@ export default function Todo() {
 
   const [todo, setTodo] = useState("");
   const [rended, setRended] = useState([]);
-  const [reFetch, setRefetch] = useState(true)
-  const [edit, isEdit] = useState(false)
+  const [reFetch, setRefetch] = useState(true);
 
   useEffect(() => {
     const getTodo = async () => {
       try {
         const response = await axios.get(
           `https://pre-onboarding-selection-task.shop/todos`,
-          { headers: { 'Authorization': `Bearer ${TOKEN}` } }
+          { headers: { Authorization: `Bearer ${TOKEN}` } }
         );
 
         setRended([...response.data]);
@@ -30,11 +30,11 @@ export default function Todo() {
       }
     };
 
-    getTodo(); // 이거 없어도 돼요
+    getTodo();
   }, [reFetch]);
 
   const createTodo = async () => {
-    let data ={
+    let data = {
       todo: todo,
     };
     try {
@@ -48,30 +48,14 @@ export default function Todo() {
           },
         }
       );
-      setRefetch(!reFetch)
+      setRefetch(!reFetch);
+      setTodo("");
     } catch (error) {
       alert(error);
     }
   };
 
 
-  const deleteTodo = async (id) => {
-    try {
-      await axios.delete(
-        `https://pre-onboarding-selection-task.shop/todos/${id}`,
-        { headers: { 'Authorization': `Bearer ${TOKEN}` } }
-      );
-      setRefetch(!reFetch)
-    } catch (error) {
-      alert(error);
-    }
-  }
-
-  const handleEditMode = () => {
-
-  }
-
-  
   return (
     <>
       <TodoStyle>
@@ -85,14 +69,15 @@ export default function Todo() {
           <div>
             {rended?.map((el) => {
               return (
-                  <div key={el.id}>
-                    <label >
-                      <input type="checkbox" />
-                      <span>{el.todo}</span> 
-                    </label>
-                    <button id="modify-button" onClick={handleEditMode}>수정</button> {/**제출 */}
-                    <button id="delete-button"  onClick={() => deleteTodo(el.id)}>삭제</button> {/**취소*/}
-                  </div>
+                <SingleTodo
+                  key={el.id}
+                  element={el}
+                  TOKEN={TOKEN}
+                  reFetch={reFetch}
+                  setRefetch={setRefetch}
+                  setRended = {setRended}
+                  rended = {rended}
+                />
               );
             })}
           </div>
