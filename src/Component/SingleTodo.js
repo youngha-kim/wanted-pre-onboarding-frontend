@@ -3,7 +3,8 @@ import axios from "axios";
 
 export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
   const [edit, isEdit] = useState(false);
-  const [newText, setNewText] = useState("");
+  const [newText, setNewText] = useState(element.todo);
+  const [isChecked , setIsChecked] = useState(element.isCompleted)
 
   const handleEdit = async (e, id) => {
     if (e.target.textContent === "수정") {
@@ -12,7 +13,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
     if (e.target.textContent === "제출") {
       let data = {
         todo: newText,
-        isCompleted: element.isCompleted,
+        isCompleted: isChecked,
       };
       try {
         await axios.put(
@@ -52,10 +53,42 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
     }
   };
 
+  const handleCheckBox = async (e, id) => {
+  
+    if(!edit){
+      let data = {
+        todo: element.todo,
+        isCompleted: !isChecked,
+      };
+      try {
+        await axios.put(
+          `https://pre-onboarding-selection-task.shop/todos/${id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${TOKEN}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setIsChecked(() => !isChecked)
+        isEdit(false);
+        setRefetch(!reFetch)
+        
+      } catch (error) {
+        alert(error);
+      }
+    } else {
+      setIsChecked(!isChecked)
+    }
+  }
+
+
+
   return (
     <div key={element.id}>
       <label>
-        <input type="checkbox" />
+        <input type="checkbox" defaultChecked = {isChecked} onClick ={(e) => handleCheckBox(e, element.id)} />
         {edit ? (
           <input value={newText} onChange={(e) => setNewText(e.target.value)} />
         ) : (
