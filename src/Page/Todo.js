@@ -4,10 +4,8 @@ import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
 
 export default function Todo() {
-
   let TOKEN = "";
   if (!localStorage.getItem("access_Token")) {
-    console.log("todo");
     window.location.replace("/signin");
   } else {
     TOKEN = localStorage.getItem("access_Token");
@@ -26,7 +24,6 @@ export default function Todo() {
         );
 
         setRended([...response.data]);
-        console.log(response.data)
       } catch (error) {
         alert(error);
       }
@@ -57,15 +54,20 @@ export default function Todo() {
     }
   };
 
-
   return (
     <>
       <TodoStyle>
         <div className="todo-box">
           <div>Todo</div>
           <div>
-            <input value={todo} onChange={(e) => setTodo(e.target.value)} />
-            <button onClick={createTodo}>추가</button>
+            <input
+              data-testid="new-todo-input"
+              value={todo}
+              onChange={(e) => setTodo(e.target.value)}
+            />
+            <button data-testid="new-todo-add-button" onClick={createTodo}>
+              추가
+            </button>
           </div>
 
           <div>

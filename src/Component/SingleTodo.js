@@ -4,12 +4,26 @@ import axios from "axios";
 export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
   const [edit, isEdit] = useState(false);
   const [newText, setNewText] = useState(element.todo);
-  const [isChecked , setIsChecked] = useState(element.isCompleted)
+  const [isChecked, setIsChecked] = useState(element.isCompleted);
 
-  const handleEdit = async (e, id) => {
-    if (e.target.textContent === "수정") {
-      isEdit(true);
+  const handleEdit = () => {
+    isEdit(true);
+  };
+
+  const deleteTodo = async (id) => {
+    try {
+      await axios.delete(
+        `https://pre-onboarding-selection-task.shop/todos/${id}`,
+        { headers: { Authorization: `Bearer ${TOKEN}` } }
+      );
+      setNewText("");
+      setRefetch(!reFetch);
+    } catch (error) {
+      alert(error);
     }
+  };
+
+  const submitTodo = async (e, id) => {
     if (e.target.textContent === "제출") {
       let data = {
         todo: newText,
@@ -27,35 +41,20 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           }
         );
         isEdit(false);
-        setRefetch(!reFetch)
+        setRefetch(!reFetch);
       } catch (error) {
         alert(error);
       }
     }
   };
 
-  const deleteTodo = async (e, id) => {
-    if (e.target.textContent === "삭제") {
-      try {
-        await axios.delete(
-          `https://pre-onboarding-selection-task.shop/todos/${id}`,
-          { headers: { Authorization: `Bearer ${TOKEN}` } }
-        );
-        setNewText("");
-        setRefetch(!reFetch);
-        
-      } catch (error) {
-        alert(error);
-      }
-    } else if (e.target.textContent === "취소") {
-      setNewText("");
-      isEdit(false);
-    }
+  const cancleTodo = (element) => {
+    setNewText(element.todo);
+    isEdit(false);
   };
 
   const handleCheckBox = async (e, id) => {
-  
-    if(!edit){
+    if (!edit) {
       let data = {
         todo: element.todo,
         isCompleted: !isChecked,
@@ -71,38 +70,54 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
             },
           }
         );
-        setIsChecked(() => !isChecked)
+        setIsChecked(() => !isChecked);
         isEdit(false);
-        setRefetch(!reFetch)
-        
+        setRefetch(!reFetch);
       } catch (error) {
         alert(error);
       }
     } else {
-      setIsChecked(!isChecked)
+      setIsChecked(!isChecked);
     }
-  }
-
-
+  };
 
   return (
     <div key={element.id}>
       <label>
-        <input type="checkbox" defaultChecked = {isChecked} onClick ={(e) => handleCheckBox(e, element.id)} />
-        {edit ? (
-          <input value={newText} onChange={(e) => setNewText(e.target.value)} />
-        ) : (
-          <span>{element.todo}</span>
-        )}
+        <input
+          data-testid="modify-input"
+          type="checkbox"
+          defaultChecked={isChecked}
+          onClick={(e) => handleCheckBox(e, element.id)}
+        />
       </label>
-
-      <button id="modify-button" onClick={(e) => handleEdit(e, element.id)}>
-        {edit ? "제출" : "수정"}
-      </button>
-
-      <button id="delete-button" onClick={(e) => deleteTodo(e, element.id)}>
-        {edit ? "취소" : "삭제"}
-      </button>
+      {edit ? (
+        <>
+          <input value={newText} onChange={(e) => setNewText(e.target.value)} />
+          <button
+            data-testid="submit-button"
+            onClick={(e) => submitTodo(e, element.id)}
+          >
+            제출
+          </button>
+          <button data-testid="cancel-button" onClick={() => cancleTodo(element)}>
+            취소
+          </button>
+        </>
+      ) : (
+        <>
+          <span>{element.todo}</span>
+          <button data-testid="modify-button" onClick={() => handleEdit()}>
+            수정
+          </button>
+          <button
+            data-testid="delete-button"
+            onClick={() => deleteTodo(element.id)}
+          >
+            삭제
+          </button>
+        </>
+      )}
     </div>
   );
 };

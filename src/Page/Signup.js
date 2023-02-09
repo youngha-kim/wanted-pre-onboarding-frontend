@@ -10,10 +10,9 @@ export default function Signup() {
 
   let naviagte = useNavigate();
 
-  if(localStorage.getItem("access_Token")){
-      console.log("signup")
-      window.location.replace('/todo')
-  } 
+  if (localStorage.getItem("access_Token")) {
+    window.location.replace("/todo");
+  }
 
   const handleLogin = async () => {
     let data = {
@@ -45,18 +44,20 @@ export default function Signup() {
         <div className="signin-box">
           <div>Signup</div>
           <input
-            id="email-input"
+            data-testid="email-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            id="password-input"
+            data-testid="password-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            disabled={email.includes("@") && password.length >= 8 ? false : true}
-            id="signin-button"
+            disabled={
+              email.includes("@") && password.length >= 8 ? false : true
+            }
+            data-testid="signup-button"
             onClick={handleLogin}
           >
             회원가입

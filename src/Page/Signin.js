@@ -13,7 +13,6 @@ export default function SignIn() {
     window.location.replace('/todo')
   } 
 
-
   const handleLogin = async () => {
     let data = {
       email: email,
