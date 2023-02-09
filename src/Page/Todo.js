@@ -4,13 +4,6 @@ import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
 
 export default function Todo() {
-  window.addEventListener('unload', (event) => {
-    // 명세에 따라 preventDefault는 호출해야하며, 기본 동작을 방지합니다.
-    event.preventDefault();
-    
-    // 문자열 반환
-    return alert("sd");
-  });
 
   let TOKEN = "";
   if (!localStorage.getItem("access_Token")) {
