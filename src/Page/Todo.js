@@ -22,7 +22,6 @@ export default function Todo() {
           `https://pre-onboarding-selection-task.shop/todos`,
           { headers: { Authorization: `Bearer ${TOKEN}` } }
         );
-
         setRended([...response.data]);
       } catch (error) {
         alert(error);
@@ -57,44 +56,47 @@ export default function Todo() {
   return (
     <>
       <TodoStyle>
-        <div className="todo-box">
-          <div>Todo</div>
-          <div>
-            <input
-              data-testid="new-todo-input"
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-            />
-            <button data-testid="new-todo-add-button" onClick={createTodo}>
-              추가
-            </button>
-          </div>
-
-          <div>
-            {rended?.map((el) => {
-              return (
-                <SingleTodo
-                  key={el.id}
-                  element={el}
-                  TOKEN={TOKEN}
-                  reFetch={reFetch}
-                  setRefetch={setRefetch}
-                />
-              );
-            })}
-          </div>
-        </div>
+        <main className="todo-box">
+          <article>
+            <h1>Todo Lists</h1>
+            <section>
+              <input
+                data-testid="new-todo-input"
+                value={todo}
+                onChange={(e) => setTodo(e.target.value)}
+              />
+              <button data-testid="new-todo-add-button" onClick={createTodo}>
+                추가
+              </button>
+            </section>
+            <section>
+              <ul>
+                {rended?.map((el) => {
+                  return (
+                    <SingleTodo
+                      key={el.id}
+                      element={el}
+                      TOKEN={TOKEN}
+                      reFetch={reFetch}
+                      setRefetch={setRefetch}
+                    />
+                  );
+                })}
+              </ul>
+            </section>
+          </article>
+        </main>
       </TodoStyle>
     </>
   );
 }
 
 const TodoStyle = styled.div`
-  .todo-box {
+  article {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 20vh;
+    margin-top: 30vh;
   }
 `;

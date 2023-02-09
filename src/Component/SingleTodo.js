@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
-  const [edit, isEdit] = useState(false);
+  const [editMode, isEditMode] = useState(false);
   const [newText, setNewText] = useState(element.todo);
   const [isChecked, setIsChecked] = useState(element.isCompleted);
 
   const handleEdit = () => {
-    isEdit(true);
+    isEditMode(true);
   };
 
   const deleteTodo = async (id) => {
@@ -40,7 +40,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
             },
           }
         );
-        isEdit(false);
+        isEditMode(false);
         setRefetch(!reFetch);
       } catch (error) {
         alert(error);
@@ -50,11 +50,11 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
 
   const cancleTodo = (element) => {
     setNewText(element.todo);
-    isEdit(false);
+    isEditMode(false);
   };
 
   const handleCheckBox = async (e, id) => {
-    if (!edit) {
+    if (!editMode) {
       let data = {
         todo: element.todo,
         isCompleted: !isChecked,
@@ -71,7 +71,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           }
         );
         setIsChecked(() => !isChecked);
-        isEdit(false);
+        isEditMode(false);
         setRefetch(!reFetch);
       } catch (error) {
         alert(error);
@@ -82,7 +82,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
   };
 
   return (
-    <div key={element.id}>
+    <li key={element.id}>
       <label>
         <input
           data-testid="modify-input"
@@ -91,7 +91,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           onClick={(e) => handleCheckBox(e, element.id)}
         />
       </label>
-      {edit ? (
+      {editMode ? (
         <>
           <input value={newText} onChange={(e) => setNewText(e.target.value)} />
           <button
@@ -100,7 +100,10 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           >
             제출
           </button>
-          <button data-testid="cancel-button" onClick={() => cancleTodo(element)}>
+          <button
+            data-testid="cancel-button"
+            onClick={() => cancleTodo(element)}
+          >
             취소
           </button>
         </>
@@ -118,6 +121,6 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           </button>
         </>
       )}
-    </div>
+    </li>
   );
 };

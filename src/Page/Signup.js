@@ -41,18 +41,20 @@ export default function Signup() {
   return (
     <>
       <SignUp>
-        <div className="signin-box">
-          <div>Signup</div>
-          <input
-            data-testid="email-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            data-testid="password-input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <article className="signin-box">
+          <h2>Signup</h2>
+          <section>
+            <input
+              data-testid="email-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              data-testid="password-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </section>
           <button
             disabled={
               email.includes("@") && password.length >= 8 ? false : true
@@ -62,7 +64,7 @@ export default function Signup() {
           >
             회원가입
           </button>
-        </div>
+        </article>
       </SignUp>
     </>
   );
@@ -73,6 +75,11 @@ const SignUp = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 20vh;
+    margin-top: 30vh;
+  }
+  section{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
 `;

@@ -6,18 +6,20 @@ export const Home = () => {
   return (
     <>
       <HomeStyle>
-        <div className="home-box">
-          Home
-          <Link to={"/signup"} className="link">
-            <button>signup</button>
-          </Link>
-          <Link to={"/signin"} className="link">
-            <button>signin</button>
-          </Link>
-          <Link to={"/todo"} className="link">
-            <button>todo</button>
-          </Link>
-        </div>
+        <article className="home-box">
+          <h2>Home</h2>
+          <nav className="navigation-box">
+            <Link to={"/signup"} className="link">
+              <button>signup</button>
+            </Link>
+            <Link to={"/signin"} className="link">
+              <button>signin</button>
+            </Link>
+            <Link to={"/todo"} className="link">
+              <button>todo</button>
+            </Link>
+          </nav>
+        </article>
       </HomeStyle>
     </>
   );
@@ -29,6 +31,11 @@ const HomeStyle = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 20vh;
+    margin-top: 30vh;
+  }
+  nav{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
   }
 `;
