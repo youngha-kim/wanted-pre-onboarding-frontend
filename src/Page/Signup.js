@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { client } from "../axiosInstances/constants";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -21,10 +21,7 @@ export default function Signup() {
     };
 
     try {
-      await axios.post(
-        `https://pre-onboarding-selection-task.shop/auth/signup`,
-        data
-      );
+      await client.post(`/auth/signup`, data);
       alert("로그인 페이지로 이동합니다");
       naviagte("/signin");
     } catch (error) {
@@ -77,7 +74,7 @@ const SignUp = styled.div`
     flex-direction: column;
     margin-top: 30vh;
   }
-  section{
+  section {
     display: flex;
     justify-content: center;
     flex-direction: column;

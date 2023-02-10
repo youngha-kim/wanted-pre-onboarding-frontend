@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
-
+import { client } from "../axiosInstances/constants";
 export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
   const [editMode, isEditMode] = useState(false);
   const [newText, setNewText] = useState(element.todo);
@@ -12,11 +11,10 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(
-        `https://pre-onboarding-selection-task.shop/todos/${id}`,
-        { headers: { Authorization: `Bearer ${TOKEN}` } }
-      );
-      setNewText("");
+      await client.delete(`/todos/${id}`, {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      });
+      setNewText(() => "");
       setRefetch(!reFetch);
     } catch (error) {
       alert(error);
@@ -30,16 +28,12 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
         isCompleted: isChecked,
       };
       try {
-        await axios.put(
-          `https://pre-onboarding-selection-task.shop/todos/${id}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${TOKEN}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        await client.put(`/todos/${id}`, data, {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
         isEditMode(false);
         setRefetch(!reFetch);
       } catch (error) {
@@ -53,23 +47,19 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
     isEditMode(false);
   };
 
-  const handleCheckBox = async (e, id) => {
+  const handleCheckBox = async (todo, id) => {
     if (!editMode) {
       let data = {
-        todo: element.todo,
+        todo: todo,
         isCompleted: !isChecked,
       };
       try {
-        await axios.put(
-          `https://pre-onboarding-selection-task.shop/todos/${id}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${TOKEN}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        await client.put(`/todos/${id}`, data, {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
         setIsChecked(() => !isChecked);
         isEditMode(false);
         setRefetch(!reFetch);
@@ -88,7 +78,7 @@ export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
           data-testid="modify-input"
           type="checkbox"
           defaultChecked={isChecked}
-          onClick={(e) => handleCheckBox(e, element.id)}
+          onClick={() => handleCheckBox(element.todo, element.id)}
         />
       </label>
       {editMode ? (

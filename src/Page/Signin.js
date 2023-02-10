@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { client } from "../axiosInstances/constants";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -20,10 +20,7 @@ export default function SignIn() {
     };
 
     try {
-      let response = await axios.post(
-        `https://pre-onboarding-selection-task.shop/auth/signin`,
-        data
-      );
+      let response = await client.post(`/auth/signin`, data);
       localStorage.setItem("access_Token", response.data.access_token);
       alert("로그인을 성공하였습니다.");
       naviagte("/todo");
@@ -77,7 +74,7 @@ const SingIn = styled.div`
     flex-direction: column;
     margin-top: 20vh;
   }
-  section{
+  section {
     display: flex;
     justify-content: center;
     flex-direction: column;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { client } from "../axiosInstances/constants";
 import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
 
@@ -18,10 +18,9 @@ export default function Todo() {
   useEffect(() => {
     const getTodo = async () => {
       try {
-        const response = await axios.get(
-          `https://pre-onboarding-selection-task.shop/todos`,
-          { headers: { Authorization: `Bearer ${TOKEN}` } }
-        );
+        const response = await client.get(`/todos`, {
+          headers: { Authorization: `Bearer ${TOKEN}` },
+        });
         setRended([...response.data]);
       } catch (error) {
         alert(error);
@@ -36,16 +35,12 @@ export default function Todo() {
       todo: todo,
     };
     try {
-      await axios.post(
-        "https://pre-onboarding-selection-task.shop/todos",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await client.post("/todos", data, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
       setRefetch(!reFetch);
       setTodo("");
     } catch (error) {
