@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { client } from "../axiosInstances/constants";
+import { client } from "../Utiles/constants";
+import { MINIMUM_LEN, REQUIRED_VAL } from "../Utiles/constants";
+import { getStoredToken } from "../Utiles/token-storage";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -54,7 +56,9 @@ export default function Signup() {
           </section>
           <button
             disabled={
-              email.includes("@") && password.length >= 8 ? false : true
+              email.includes(REQUIRED_VAL) && password.length >= MINIMUM_LEN
+                ? false
+                : true
             }
             data-testid="signup-button"
             onClick={handleLogin}

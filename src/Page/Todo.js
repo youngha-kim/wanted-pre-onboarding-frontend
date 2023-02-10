@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { client } from "../axiosInstances/constants";
+import { client } from "../Utiles/constants";
 import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
-
+import { getStoredToken } from "../Utiles/token-storage";
 export default function Todo() {
-  let TOKEN = "";
-  if (!localStorage.getItem("access_Token")) {
+  const TOKEN = getStoredToken();
+  if (!TOKEN) {
     window.location.replace("/signin");
-  } else {
-    TOKEN = localStorage.getItem("access_Token");
   }
 
   const [todo, setTodo] = useState("");

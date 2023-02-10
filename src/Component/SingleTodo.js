@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { client } from "../axiosInstances/constants";
+import { client } from "../Utiles/constants";
 export const SingleTodo = ({ element, TOKEN, reFetch, setRefetch }) => {
   const [editMode, isEditMode] = useState(false);
   const [newText, setNewText] = useState(element.todo);

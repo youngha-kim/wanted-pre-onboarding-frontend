@@ -2,14 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { client } from "../axiosInstances/constants";
+import { client } from "../Utiles/constants";
+import { MINIMUM_LEN, REQUIRED_VAL } from "../Utiles/constants";
+import { setStoredToken , getStoredToken} from "../Utiles/token-storage";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   let naviagte = useNavigate();
 
-  if (localStorage.getItem("access_Token")) {
+  if (getStoredToken()) {
     window.location.replace("/todo");
   }
 
@@ -21,7 +24,7 @@ export default function SignIn() {
 
     try {
       let response = await client.post(`/auth/signin`, data);
-      localStorage.setItem("access_Token", response.data.access_token);
+      setStoredToken(response.data.access_token) ;
       alert("로그인을 성공하였습니다.");
       naviagte("/todo");
     } catch (error) {
@@ -54,7 +57,9 @@ export default function SignIn() {
           </section>
           <button
             disabled={
-              email.includes("@") && password.length >= 8 ? false : true
+              email.includes(REQUIRED_VAL) && password.length >= MINIMUM_LEN
+                ? false
+                : true
             }
             id="signin-button"
             onClick={handleLogin}
