@@ -10,8 +10,8 @@
 
 # 프로젝트 링크 
 
-- [회원가입](https://youngha-kim-pre-onboarding.netlify.app/signup).
-- [로그인](https://youngha-kim-pre-onboarding.netlify.app/signin).
+- [signup](https://youngha-kim-pre-onboarding.netlify.app/signup).
+- [signin](https://youngha-kim-pre-onboarding.netlify.app/signin).
 - [todo](https://youngha-kim-pre-onboarding.netlify.app/todo).
 
 <br>
