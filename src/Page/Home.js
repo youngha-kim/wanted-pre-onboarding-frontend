@@ -33,9 +33,9 @@ const HomeStyle = styled.div`
     flex-direction: column;
     margin-top: 30vh;
   }
-  nav{
+  nav {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
   }
 `;

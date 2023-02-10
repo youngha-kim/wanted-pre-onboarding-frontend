@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { client } from "../Utiles/constants";
 import { MINIMUM_LEN, REQUIRED_VAL } from "../Utiles/constants";
-import { setStoredToken , getStoredToken} from "../Utiles/token-storage";
+import { setStoredToken, getStoredToken } from "../Utiles/token-storage";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ export default function SignIn() {
 
     try {
       let response = await client.post(`/auth/signin`, data);
-      setStoredToken(response.data.access_token) ;
+      setStoredToken(response.data.access_token);
       alert("로그인을 성공하였습니다.");
       naviagte("/todo");
     } catch (error) {
