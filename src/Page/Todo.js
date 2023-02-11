@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { client } from "../Utiles/constants";
 import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
 import { getStoredToken } from "../Utiles/token-storage";
-
 
 export default function Todo() {
   const TOKEN = getStoredToken();
@@ -11,9 +10,9 @@ export default function Todo() {
     window.location.replace("/signin");
   }
 
-  const [todo, setTodo] = useState("");
   const [rended, setRended] = useState([]);
   const [reFetch, setRefetch] = useState(true);
+  const textInput = useRef("");
 
   useEffect(() => {
     const getTodo = async () => {
@@ -26,13 +25,14 @@ export default function Todo() {
         alert(error);
       }
     };
-
+    textInput.current.focus();
     getTodo();
   }, [reFetch]);
 
   const createTodo = async () => {
+
     let data = {
-      todo: todo,
+      todo: textInput.current.value,
     };
     try {
       await client.post("/todos", data, {
@@ -42,7 +42,7 @@ export default function Todo() {
         },
       });
       setRefetch(!reFetch);
-      setTodo("");
+      textInput.current.value = ""
     } catch (error) {
       alert(error);
     }
@@ -57,8 +57,7 @@ export default function Todo() {
             <section>
               <input
                 data-testid="new-todo-input"
-                value={todo}
-                onChange={(e) => setTodo(e.target.value)}
+                ref={textInput}
               />
               <button data-testid="new-todo-add-button" onClick={createTodo}>
                 추가
