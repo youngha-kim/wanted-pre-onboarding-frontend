@@ -12,7 +12,7 @@ export default function Todo() {
 
   const [rended, setRended] = useState([]);
   const [reFetch, setRefetch] = useState(true);
-  const textInput = useRef("");
+  const todoInput = useRef("");
 
   useEffect(() => {
     const getTodo = async () => {
@@ -20,19 +20,20 @@ export default function Todo() {
         const response = await client.get(`/todos`, {
           headers: { Authorization: `Bearer ${TOKEN}` },
         });
-        setRended([...response.data]);
+        setRended(() => {return [...response.data] });
       } catch (error) {
         alert(error);
       }
+      console.log("at mount", rended)
     };
-    textInput.current.focus();
+    todoInput.current.focus();
     getTodo();
   }, [reFetch]);
 
+  // console.log(rended);
   const createTodo = async () => {
-
     let data = {
-      todo: textInput.current.value,
+      todo: todoInput.current.value,
     };
     try {
       await client.post("/todos", data, {
@@ -42,7 +43,7 @@ export default function Todo() {
         },
       });
       setRefetch(!reFetch);
-      textInput.current.value = ""
+      todoInput.current.value = "";
     } catch (error) {
       alert(error);
     }
@@ -55,17 +56,14 @@ export default function Todo() {
           <article>
             <h1>Todo Lists</h1>
             <section>
-              <input
-                data-testid="new-todo-input"
-                ref={textInput}
-              />
+              <input data-testid="new-todo-input" ref={todoInput} />
               <button data-testid="new-todo-add-button" onClick={createTodo}>
                 추가
               </button>
             </section>
             <section>
               <ul>
-                {rended?.map((el) => {
+                { rended?.map((el) => {
                   return (
                     <SingleTodo
                       key={el.id}
