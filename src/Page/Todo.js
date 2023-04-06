@@ -3,6 +3,7 @@ import { client } from "../Utiles/constants";
 import styled from "styled-components";
 import { SingleTodo } from "../Component/SingleTodo";
 import { getStoredToken } from "../Utiles/token-storage";
+import { clearStoredToken } from "../Utiles/token-storage";
 
 export default function Todo() {
   const TOKEN = getStoredToken();
@@ -25,8 +26,8 @@ export default function Todo() {
         });
       } catch (error) {
         alert(error);
+        clearStoredToken()
       }
-      console.log("at mount", rended);
     };
     todoInput.current.focus();
     getTodo();
@@ -44,8 +45,8 @@ export default function Todo() {
           "Content-Type": "application/json",
         },
       });
-      setRefetch(!reFetch);
       todoInput.current.value = "";
+      setRefetch(!reFetch);
     } catch (error) {
       alert(error);
     }
