@@ -20,11 +20,13 @@ export default function Todo() {
         const response = await client.get(`/todos`, {
           headers: { Authorization: `Bearer ${TOKEN}` },
         });
-        setRended(() => {return [...response.data] });
+        setRended(() => {
+          return [...response.data];
+        });
       } catch (error) {
         alert(error);
       }
-      console.log("at mount", rended)
+      console.log("at mount", rended);
     };
     todoInput.current.focus();
     getTodo();
@@ -63,7 +65,7 @@ export default function Todo() {
             </section>
             <section>
               <ul>
-                { rended?.map((el) => {
+                {rended?.map((el) => {
                   return (
                     <SingleTodo
                       key={el.id}
